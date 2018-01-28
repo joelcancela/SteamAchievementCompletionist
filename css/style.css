@@ -1,0 +1,241 @@
+/**
+ *  CSS for S.A.C. (SteamAchievementCompletionist)
+ *  @author Joël CANCELA VAZ[joel.cancelavaz@gmail.com]
+ *  https://github.com/joelcancela/SteamAchievementCompletionist
+ */
+
+.blacklisted {
+    color: #fe081e;
+}
+
+body {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.devicon-github-plain {
+    font-size: 1.5em;
+}
+
+.github, .github:hover, .github:focus {
+    color: #000;
+    text-decoration: none;
+}
+
+.gradient_0 {
+    background-color: #BB0000 !important;
+}
+
+.gradient_1 {
+    background-color: #B80201 !important;
+}
+
+.gradient_2 {
+    background-color: #B60502 !important;
+}
+
+.gradient_3 {
+    background-color: #B30803 !important;
+}
+
+.gradient_4 {
+    background-color: #B10B04 !important;
+}
+
+.gradient_5 {
+    background-color: #AE0E06 !important;
+}
+
+.gradient_6 {
+    background-color: #AC1107 !important;
+}
+
+.gradient_7 {
+    background-color: #A91408 !important;
+}
+
+.gradient_8 {
+    background-color: #A71609 !important;
+}
+
+.gradient_9 {
+    background-color: #A4190B !important;
+}
+
+.gradient_10 {
+    background-color: #A21C0C !important;
+}
+
+.gradient_11 {
+    background-color: #9F1F0D !important;
+}
+
+.gradient_12 {
+    background-color: #9D220E !important;
+}
+
+.gradient_13 {
+    background-color: #9A2510 !important;
+}
+
+.gradient_14 {
+    background-color: #982811 !important;
+}
+
+.gradient_15 {
+    background-color: #952A12 !important;
+}
+
+.gradient_16 {
+    background-color: #932D13 !important;
+}
+
+.gradient_17 {
+    background-color: #903015 !important;
+}
+
+.gradient_18 {
+    background-color: #8E3316 !important;
+}
+
+.gradient_19 {
+    background-color: #8B3617 !important;
+}
+
+.gradient_20 {
+    background-color: #893918 !important;
+}
+
+.gradient_21 {
+    background-color: #863C1A !important;
+}
+
+.gradient_22 {
+    background-color: #843E1B !important;
+}
+
+.gradient_23 {
+    background-color: #81411C !important;
+}
+
+.gradient_24 {
+    background-color: #7F441D !important;
+}
+
+.gradient_25 {
+    background-color: #7C471F !important;
+}
+
+.gradient_26 {
+    background-color: #7A4A20 !important;
+}
+
+.gradient_27 {
+    background-color: #774D21 !important;
+}
+
+.gradient_28 {
+    background-color: #755022 !important;
+}
+
+.gradient_29 {
+    background-color: #725223 !important;
+}
+
+.gradient_30 {
+    background-color: #705525 !important;
+}
+
+.gradient_31 {
+    background-color: #6D5826 !important;
+}
+
+.gradient_32 {
+    background-color: #6B5B27 !important;
+}
+
+.gradient_33 {
+    background-color: #685E28 !important;
+}
+
+.gradient_34 {
+    background-color: #66612A !important;
+}
+
+.gradient_35 {
+    background-color: #63642B !important;
+}
+
+.gradient_36 {
+    background-color: #61662C !important;
+}
+
+.gradient_37 {
+    background-color: #5E692D !important;
+}
+
+.gradient_38 {
+    background-color: #5C6C2F !important;
+}
+
+.gradient_39 {
+    background-color: #596F30 !important;
+}
+
+.gradient_40 {
+    background-color: #577231 !important;
+}
+
+.gradient_41 {
+    background-color: #547532 !important;
+}
+
+.gradient_42 {
+    background-color: #527834 !important;
+}
+
+.gradient_43 {
+    background-color: #4F7A35 !important;
+}
+
+.gradient_44 {
+    background-color: #4D7D36 !important;
+}
+
+.gradient_45 {
+    background-color: #4A8037 !important;
+}
+
+.gradient_46 {
+    background-color: #488339 !important;
+}
+
+.gradient_47 {
+    background-color: #45863A !important;
+}
+
+.gradient_48 {
+    background-color: #43893B !important;
+}
+
+.gradient_49 {
+    background-color: #408C3C !important;
+}
+
+.gradient_50 {
+    background-color: #3E8F3E !important;
+}
+
+.level {
+    max-width: 35px;
+}
+
+.tablesorter-grey tbody > tr.even.hover > td,
+.tablesorter-grey tbody > tr.even:hover + tr.tablesorter-childRow + tr.tablesorter-childRow > td,
+.tablesorter-grey tbody > tr.even:hover + tr.tablesorter-childRow > td,
+.tablesorter-grey tbody > tr.even:hover > td,
+.tablesorter-grey tbody > tr.hover > td,
+.tablesorter-grey tbody > tr:hover + tr.tablesorter-childRow + tr.tablesorter-childRow > td,
+.tablesorter-grey tbody > tr:hover + tr.tablesorter-childRow > td, .tablesorter-grey tbody > tr:hover > td {
+    background-color: #134b78 !important;
+}

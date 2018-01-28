@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>S.A.C.</title>
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/bootstrap-theme.min.css" rel="stylesheet">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.29.0/css/theme.grey.min.css"
+	      rel="stylesheet">
+	<link rel="stylesheet"
+	      href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
+	<link href="css/style.css" rel="stylesheet">
+	<link href="ico/favicon.png" rel="shortcut icon">
+</head>
+<body>
+<div class="container">
+	<!-- Static navbar -->
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed hidden" data-toggle="collapse" data-target="#navbar"
+				        aria-expanded="false" aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">S.A.C.</a>
+			</div>
+		</div><!--/.container-fluid -->
+	</nav>
+	<!-- Main component for a primary marketing message or call to action -->
+	<div class="jumbotron">
+		<div class="row">
+			<div class="col-md-4">
+				<h4>SteamAchievementCompletionist</h4>
+				<strong><i>Not affiliated with Valve</i></strong><br>
+				<span><a class="github" href="https://github.com/joelcancela/SteamAchievementCompletionist/"
+				         onclick=" window.open(this.href);return false">
+							<i class="devicon-github-plain"></i></a> <i>© 2017-2018 - <a
+						href="mailto:joel.cancelavaz@gmail.com">Joël Cancela Vaz</a></i></span>
+			</div>
+			<div class="col-md-4">
+				<h4>Your Details</h4>
+				<form id="userInfo">
+					<table id="inputs">
+						<tr>
+							<td>Steam64 ID:</td>
+							<td><label for="steamid"></label><input type="text" id="steamid" required/></td>
+							<td><a href="#" data-toggle="modal" data-target="#steamIDModal"><h4
+									class="glyphicon glyphicon glyphicon-question-sign"></h4></a></td>
+						</tr>
+						<tr>
+							<td>Games with achievements JSON:</td>
+							<td><label for="gamesJSON"></label><input type="text" id="gamesJSON" required/></td>
+							<td><a href="#" data-toggle="modal" data-target="#gamesJSONModal"><h4
+									class="glyphicon glyphicon glyphicon glyphicon-question-sign"></h4></a></td>
+						</tr>
+						<tr>
+							<td>Steam API Key (optional):</td>
+							<td><label for="apiKey"></label><input type="text" id="apiKey"/></td>
+						</tr>
+					</table>
+					<input type="Submit" name="submit_button"/>
+				</form>
+			</div>
+			<div class="col-md-4">
+				<h4>Results</h4>
+				<strong>Games retrieved: </strong><span id="number_games_retrieved">0</span><span
+					id="number_games">/0</span>
+				<strong id="blacklisted_games_span" class="blacklisted" style="display: none;">+ <span
+						id="blacklisted_games_retrieved">0</span> BL
+					game(s)</strong><br>
+				<strong>Avg Completion: </strong><span id="average_completion">0</span><span>%</span><br>
+				<strong>Achievements: </strong><span id="achievements_number">0</span><br>
+				<strong>Games completed: </strong><span id="games_completed">0</span>
+			</div>
+		</div>
+	</div>
+	<div class="container-fluid">
+		<div class="row">
+			<div id="results" class="hidden">
+				<table id="achievements_table" class="tablesorter" cellspacing="0" width="100%">
+					<thead>
+					<tr>
+						<th>Name</th>
+						<th>APPID</th>
+						<th data-placeholder="Display all games">%</th>
+					</tr>
+					</thead>
+					<tbody id="games_table">
+					</tbody>
+					<tfoot>
+					</tfoot>
+				</table>
+			</div>
+		</div>
+	</div>
+</div> <!-- /container -->
+<!-- Modals -->
+<!-- Modal Welcome -->
+<div class="modal fade" id="welcomeModal" tabindex="-1" role="dialog" data-backdrop="static"
+     aria-labelledby="welcomeModalTitle"
+     aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Welcome to S.A.C. (SteamAchievementCompletionist)</h4>
+				<h5>Made for achievement hunters</h5>
+			</div>
+			<div class="modal-body">
+				<strong>What is this ?</strong>
+				<p>This project provides a simple view of the achievement completion for every game owned by a user on
+					his Steam account.</p>
+				<br>
+				<strong>Requirements:</strong>
+				<ul>
+					<li>You need to have a Steam account (Thanks Captain Obvious)</li>
+					<li>You need to be at least level <img class="level" src="img/lvl10.png" alt="10"></li>
+				</ul>
+				<strong>How to use:</strong>
+				<ul>
+					<li>Get your <a href="https://steamid.xyz/" onclick="window.open(this.href);return false">STEAM64
+						ID</a> and copy-paste it in the field <strong>Steam64
+						ID</strong>
+					</li>
+					<li>Go to your Steam profile and click
+						on "<a href="https://steamcommunity.com/id/yourprofile/edit"
+						       onclick="window.open(this.href);return false">Edit profile</a>"
+					</li>
+					<li>Open console (F12) and type :
+						<pre>copy(g_rgAchievementShowcaseGamesWithAchievements);</pre>
+						this command will
+						copy to
+						the Clipboard the games you have at least one achievement unlocked in
+					</li>
+					<li>Paste (CTRL+V) in the field <strong>Games with achievements JSON</strong></li>
+					<li>Press "Submit"</li>
+					<li>Enjoy and have a good achievement hunting.</li>
+				</ul>
+				<strong>Notes:</strong>
+				<ul>
+					<li>There are some games (mostly demos) that counts in the Steam achievement percentage but aren't
+						in the <strong>Games with achievements JSON</strong>,
+						I made a blacklist which will retrieve them all, if the count on SAC isn't the same as in your
+						profile, please raise an <a href="https://github.com/joelcancela/SteamAchievementCompletionist/issues">issue</a>.
+					</li>
+					<li>You'll have to remake the "edit profile" manipulation to keep your listing up-to-date.</li>
+				</ul>
+				<strong>Blacklisted Games:</strong>
+				<table class="table table-bordered">
+					<thead>
+					<tr>
+						<th>Name</th>
+						<th>Appid</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr>
+						<td>The Stanley Parable Demo</td>
+						<td>247750</td>
+					</tr>
+					</tbody>
+				</table>
+				<label for="welcomeModalCheckbox">
+					<input type="checkbox" id="welcomeModalCheckbox"/> Don't show this next time
+				</label>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Modal SteamID help -->
+<div class="modal fade" id="steamIDModal" tabindex="-1" role="dialog"
+     aria-labelledby="steamIDModalTitle"
+     aria-hidden="true">
+	<div class="modal-dialog">
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">How to get your Steam64 ID</h4>
+			</div>
+			<div class="modal-body">
+				<ul>
+					<li><span>Go to this site: <a href="https://steamid.xyz/"
+					                              onclick="window.open(this.href);return false">steamid.xyz</a></span>
+					</li>
+					<li><span>Type your Steam profile URL in the field and submit</span></li>
+				</ul>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Modal Games JSON help -->
+<div class="modal fade" id="gamesJSONModal" tabindex="-1" role="dialog"
+     aria-labelledby="gamesJSONModalTitle"
+     aria-hidden="true">
+	<div class="modal-dialog">
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">How to get your "Games with achievements JSON"</h4>
+			</div>
+			<div class="modal-body">
+				<ul>
+					<li>Go to your Steam profile and click
+						on "<a href="https://steamcommunity.com/id/yourprofile/edit"
+						       onclick="window.open(this.href);return false">Edit profile</a>"
+					</li>
+					<li>Open console (F12) and type :
+						<pre>copy(g_rgAchievementShowcaseGamesWithAchievements);</pre>
+						this command will
+						copy to
+						the Clipboard the games you have at least one achievement unlocked in
+					</li>
+					<li>Paste (CTRL+V) in the field <strong>Games with achievements JSON</strong></li>
+				</ul>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script
+		src="https://code.jquery.com/jquery-3.2.1.min.js"
+		integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+		crossorigin="anonymous"></script>
+<script src="js/bootstrap.min.js"></script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.29.0/js/jquery.tablesorter.min.js"></script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.29.0/js/jquery.tablesorter.widgets.min.js"></script>
+<script src="js/achievementsTracker.js"></script>
+</body>
+</html>
