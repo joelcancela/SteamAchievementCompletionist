@@ -17,7 +17,7 @@ var completion_sum = 0;
 var achievements_sum = 0;
 var games_completed = 0;
 var apiKey;//TODO user can provide Steam API
-var CORS_STEAM_ACHIEVEMENTS_URL = "http://www.joelcancela.fr/services/sac/getSteamAchievements/";
+var CORS_STEAM_ACHIEVEMENTS_URL = "https://www.joelcancela.fr/services/sac/getSteamAchievements/";
 var blacklisted_games = [247750]; //Games does still count in the achievements but are not in the array (demos like The Stanley Parable Demo)
 
 /**
