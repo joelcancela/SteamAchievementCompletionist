@@ -31,7 +31,7 @@ this command will copy to the Clipboard the games you have at least one achievem
 
 ## Notes
 
-* There are some games (mostly demos) that counts in the Steam achievement percentage but aren't in the Games with achievements JSON, I made a blacklist which will be used to retrieve them all. If the count on SAC isn't the same as in your profile, please notify [joel.cancelavaz@gmail.com](mailto:joel.cancelavaz@gmail.com)
+* There are some games (mostly demos) that counts in the Steam achievement percentage but aren't in the Games with achievements JSON, I made a blacklist which will be used to retrieve them all. If the count on SAC isn't the same as in your profile, please notify me  [joel.cancelavaz@gmail.com](mailto:joel.cancelavaz@gmail.com)
 * You'll have to remake the *Edit profile* manipulation to keep your listing up-to-date.
 
 ## Blacklisted Games
