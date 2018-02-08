@@ -1,11 +1,14 @@
 # S.A.C. (SteamAchievementCompletionist)
 
+
+[![Language](https://img.shields.io/badge/language-javascript-yellow.svg)]() [![Project Status](https://img.shields.io/badge/status-online-brightgreen.svg)]()
+
 This project provides a simple view of the achievement completion for every game owned by a user on his Steam account.
 
 ## Preview
 ![Preview](img/preview.png)
 
-You can try it here: [sac.joelcancela.fr](http://sac.joelcancela.fr/)
+You can try it [here.](http://sac.joelcancela.fr/)
 
 ## Requirements
 
@@ -25,6 +28,17 @@ this command will copy to the Clipboard the games you have at least one achievem
 * Paste (CTRL+V) in the field **Games with achievements JSON**
 * Press **Submit**
 * Enjoy and have a good achievement hunting.
+
+## Notes
+
+* There are some games (mostly demos) that counts in the Steam achievement percentage but aren't in the Games with achievements JSON, I made a blacklist which will be used to retrieve them all. If the count on SAC isn't the same as in your profile, please notify [joel.cancelavaz@gmail.com](mailto:joel.cancelavaz@gmail.com)
+* You'll have to remake the *Edit profile* manipulation to keep your listing up-to-date.
+
+## Blacklisted Games
+
+| Name                      | APPID |
+| :-------------------------: | :-------: |
+| The Stanley Parable Demo  | 247750  |
 
 ## Built With
 
