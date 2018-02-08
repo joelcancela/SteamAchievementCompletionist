@@ -1,3 +1,9 @@
+/**
+ *  CSS for S.A.C. (SteamAchievementCompletionist)
+ *  @author Joël CANCELA VAZ[joel.cancelavaz@gmail.com]
+ *  https://github.com/joelcancela/SteamAchievementCompletionist
+ */
+
 .tablesorter-grey tbody > tr.even.hover > td,
 .tablesorter-grey tbody > tr.even:hover + tr.tablesorter-childRow + tr.tablesorter-childRow > td,
 .tablesorter-grey tbody > tr.even:hover + tr.tablesorter-childRow > td,

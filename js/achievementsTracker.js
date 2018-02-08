@@ -1,37 +1,32 @@
 /*
  * achievementsTracker.js
- * 1.0.0 (2017-12-02)
+ * 1.0.0 (2018-02-08)
  *
  *
- * Copyright 2017 Joël CANCELA VAZ[joel.cancelavaz@gmail.com]
+ * Copyright 2018 Joël CANCELA VAZ[joel.cancelavaz@gmail.com]
  * This is not affiliated with Steam (owned by Valve)
  */
 
-/**
- * Globals
- */
-var steamID;
-var gamesWithAchievementsOwned;
-var welcomeModalDisplay;
+/************************************************** Globals **************************************************/
+// Fields
+var steamID;//Steam64ID of the User
+var gamesWithAchievementsOwned;//JSON containing the games/apps owned
+var welcomeModalDisplay;//Variable defining if the welcome modal should be hidden at startup
+// Stats
 var completion_sum = 0;
 var achievements_sum = 0;
 var games_completed = 0;
+var blacklisted_games = [247750]; //Games does still count in the achievements but are not in the array (demos like The Stanley Parable Demo)
+// API Related
 var apiKey;//TODO user can provide Steam API
 var CORS_STEAM_ACHIEVEMENTS_URL = "https://www.joelcancela.fr/services/sac/getSteamAchievements/";
-var blacklisted_games = [247750]; //Games does still count in the achievements but are not in the array (demos like The Stanley Parable Demo)
 
-/**
- * Init
- */
+/************************************************** Initialization  **************************************************/
 $(document).ready(function () {
-    $("#welcomeModalCheckbox").change(function () {
-        if (this.checked) {
-            localStorage.setItem('welcomeModal', "false");
-        } else {
-            localStorage.setItem('welcomeModal', null);
-        }
-
-    });
+    initializeEvents();
+    /**
+     * Retrieves the preference from the local storage about hiding the welcome modal
+     */
     welcomeModalDisplay = localStorage.getItem('welcomeModal');
     if (welcomeModalDisplay == null) {
         $('#welcomeModal').modal('show');
@@ -46,7 +41,7 @@ $(document).ready(function () {
 });
 
 /**
- * Functions
+ * Initializes the tablesorter plugin
  */
 function initializeTable() {
     $(function () {
@@ -84,7 +79,7 @@ function initializeTable() {
                 filter_functions: {
                     2: {
                         /**
-                         * Filter function
+                         * Filter function to hide fully completed games/apps
                          * @return {boolean}
                          */
                         'Hide 100% games': function (e, n) {
@@ -94,10 +89,13 @@ function initializeTable() {
                 }
             }
         })
-
     });
 }
 
+/**
+ * Updates the stats for a new game/app
+ * @param isBlacklisted
+ */
 var updateNumberOfGamesRetrieved_and_averageCompletion = function (isBlacklisted) {
     var blacklistedGamesSpan = $('#blacklisted_games_span');
     var blacklistedGamesRetrieved = $('#blacklisted_games_retrieved');
@@ -121,19 +119,37 @@ var updateNumberOfGamesRetrieved_and_averageCompletion = function (isBlacklisted
     games_completed_nb.html(games_completed);
 };
 
-$('#userInfo').on('submit', function (e) {
-    e.preventDefault();
-    steamID = $('#steamid').val();
-    gamesWithAchievementsOwned = JSON.parse($('#gamesJSON').val());
-    $('#number_games').html("/" + gamesWithAchievementsOwned.length);
-    localStorage.setItem('steamid', JSON.stringify(steamID));
-    localStorage.setItem('games', JSON.stringify(gamesWithAchievementsOwned));
-    retrieveAchievementsInfo(gamesWithAchievementsOwned);
-    addBlacklistedGames();
-    return false;
-});
 
-function asyncCalls(appid) {
+
+function initializeEvents(){
+    /**
+     * Event listener to remember user preference about hiding the welcome modal
+     */
+    $("#welcomeModalCheckbox").change(function () {
+        if (this.checked) {
+            localStorage.setItem('welcomeModal', "false");
+        } else {
+            localStorage.setItem('welcomeModal', null);
+        }
+
+    });
+    /**
+     * Saves to local storage the Steam64ID and the JSON of owned games.
+     */
+    $('#userInfo').on('submit', function (e) {
+        e.preventDefault();
+        steamID = $('#steamid').val();
+        gamesWithAchievementsOwned = JSON.parse($('#gamesJSON').val());
+        $('#number_games').html("/" + gamesWithAchievementsOwned.length);
+        localStorage.setItem('steamid', JSON.stringify(steamID));
+        localStorage.setItem('games', JSON.stringify(gamesWithAchievementsOwned));
+        retrieveAchievementsInfo(gamesWithAchievementsOwned);
+        addBlacklistedGames();
+        return false;
+    });
+}
+
+function getGameAchievements(appid) {
     $.getJSON(URLAchievementsBuilder(appid, apiKey, steamID), function (data) {
         appendGameToTable(data, appid, false);
     }).fail(function (request, error) {
@@ -160,7 +176,7 @@ function retrieveAchievementsInfo(games) {
         // noinspection JSUnfilteredForInLoop
         if (games[i].hasOwnProperty('appid')) {
             // noinspection JSUnfilteredForInLoop
-            asyncCalls(games[i]['appid']);
+            getGameAchievements(games[i]['appid']);
         }
     }
 
@@ -192,6 +208,14 @@ function appendGameToTable(json, appid, isBlacklisted) {
     $("table").trigger("update", [resort, updateNumberOfGamesRetrieved_and_averageCompletion(isBlacklisted)]);
 }
 
+/**
+ * Appends new game or application row on the table
+ * @param game_name the name of the game or app
+ * @param appid the appid of the game of app
+ * @param game_completion the percentage of completion of the game
+ * @param isBlacklisted
+ * @returns string the DOM string to append to the table
+ */
 function row_builder(game_name, appid, game_completion, isBlacklisted) {
     var dom;
     if (isBlacklisted) {
