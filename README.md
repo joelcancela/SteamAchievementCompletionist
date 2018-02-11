@@ -1,11 +1,11 @@
 # S.A.C. (SteamAchievementCompletionist)
 
-
-[![Language](https://img.shields.io/badge/language-javascript-yellow.svg)]() [![Project Status](https://img.shields.io/badge/status-online-brightgreen.svg)]()
+![Language](https://img.shields.io/badge/language-javascript-yellow.svg) ![Project Status](https://img.shields.io/badge/status-online-brightgreen.svg)
 
 This project provides a simple view of the achievement completion for every game owned by a user on his Steam account.
 
 ## Preview
+
 ![Preview](img/preview.png)
 
 You can try it [here.](http://sac.joelcancela.fr/)
@@ -20,11 +20,13 @@ You can try it [here.](http://sac.joelcancela.fr/)
 * Get your STEAM64 ID and copy-paste it in the field **Steam64 ID**
 * Go to your Steam profile and click on **Edit profile**
 * Open console (F12) and type :
+
 ```js
 copy(g_rgAchievementShowcaseGamesWithAchievements);
 ```
+
 this command will copy to the Clipboard the games you have at least one achievement unlocked in
-    
+
 * Paste (CTRL+V) in the field **Games with achievements JSON**
 * Press **Submit**
 * Enjoy and have a good achievement hunting.
@@ -51,8 +53,8 @@ this command will copy to the Clipboard the games you have at least one achievem
 
 ## Commendation
 
-Here's a site that does the same thing as this project: [completionist.me](https://completionist.me).
+Here's a new cool website that gathers Steam stats: [completionist.me](https://completionist.me).
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
