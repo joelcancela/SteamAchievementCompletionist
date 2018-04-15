@@ -13,71 +13,90 @@
 	<link href="ico/favicon.png" rel="shortcut icon">
 </head>
 <body>
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-md-2 col-md-offset-1">
-			<h3>S.A.C.</h3>
-			<h4>SteamAchievementCompletionist</h4>
-			<strong><i>Not affiliated with Valve</i></strong><br>
-			<span><a class="github" href="https://github.com/joelcancela/SteamAchievementCompletionist/"
-			         onclick=" window.open(this.href);return false">
+<div class="container">
+	<!-- Static navbar -->
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+				        aria-expanded="false" aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">S.A.C.</a>
+			</div>
+		</div><!--/.container-fluid -->
+	</nav>
+	<!-- Main component for a primary marketing message or call to action -->
+	<div class="jumbotron">
+		<div class="row">
+			<div class="col-md-4">
+				<h4>SteamAchievementCompletionist</h4>
+				<strong><i>Not affiliated with Valve</i></strong><br>
+				<span><a class="github" href="https://github.com/joelcancela/SteamAchievementCompletionist/"
+				         onclick=" window.open(this.href);return false">
 							<i class="devicon-github-plain"></i></a> <i>© 2017-2018 - <a
-					href="mailto:joel.cancelavaz@gmail.com">Joël Cancela Vaz</a></i></span>
+						href="mailto:joel.cancelavaz@gmail.com">Joël Cancela Vaz</a></i></span>
+			</div>
+			<div class="col-md-4">
+				<h4>Your Details</h4>
+				<form id="userInfo">
+					<table id="inputs">
+						<tr>
+							<td>Steam64 ID:</td>
+							<td><label for="steamid"></label><input type="text" id="steamid" required/></td>
+							<td><a href="#" data-toggle="modal" data-target="#steamIDModal"><h4
+									class="glyphicon glyphicon glyphicon-question-sign"></h4></a></td>
+						</tr>
+						<tr>
+							<td>Games with achievements JSON:</td>
+							<td><label for="gamesJSON"></label><input type="text" id="gamesJSON" required/></td>
+							<td><a href="#" data-toggle="modal" data-target="#gamesJSONModal"><h4
+									class="glyphicon glyphicon glyphicon glyphicon-question-sign"></h4></a></td>
+						</tr>
+						<tr>
+							<td>Steam API Key (optional):</td>
+							<td><label for="apiKey"></label><input type="text" id="apiKey"/></td>
+						</tr>
+					</table>
+					<input type="Submit" name="submit_button"/>
+				</form>
+			</div>
+			<div class="col-md-4">
+				<h4>Results</h4>
+				<strong>Games retrieved: </strong><span id="number_games_retrieved">0</span><span
+					id="number_games">/0</span>
+				<strong id="blacklisted_games_span" class="blacklisted" style="display: none;">+<span
+						id="blacklisted_games_retrieved">0</span> BL
+					game(s)</strong><br>
+				<strong>Avg Completion: </strong><span id="average_completion">0</span><span>%</span><br>
+				<strong>Achievements: </strong><span id="achievements_number">0</span><br>
+				<strong>Games completed: </strong><span id="games_completed">0</span>
+			</div>
 		</div>
-		<div class="col-md-3 col-md-offset-1">
-			<h4>Your Details</h4>
-			<form id="userInfo">
-				<table id="inputs">
+	</div>
+	<div class="container-fluid">
+		<div class="row">
+			<div id="results" class="hidden">
+				<table id="achievements_table" class="tablesorter" cellspacing="0" width="100%">
+					<thead>
 					<tr>
-						<td>Steam64 ID:</td>
-						<td><label for="steamid"></label><input type="text" id="steamid" required/></td>
-						<td><a href="#" data-toggle="modal" data-target="#steamIDModal"><h4
-								class="glyphicon glyphicon glyphicon-question-sign"></h4></a></td>
+						<th>Name</th>
+						<th>APPID</th>
+						<th data-placeholder="Display all games">%</th>
 					</tr>
-					<tr>
-						<td>Games with achievements JSON:</td>
-						<td><label for="gamesJSON"></label><input type="text" id="gamesJSON" required/></td>
-						<td><a href="#" data-toggle="modal" data-target="#gamesJSONModal"><h4
-								class="glyphicon glyphicon glyphicon glyphicon-question-sign"></h4></a></td>
-					</tr>
-					<tr>
-						<td>Steam API Key (optional):</td>
-						<td><label for="apiKey"></label><input type="text" id="apiKey"/></td>
-					</tr>
+					</thead>
+					<tbody id="games_table">
+					</tbody>
+					<tfoot>
+					</tfoot>
 				</table>
-				<input type="Submit" name="submit_button"/>
-			</form>
-		</div>
-		<div class="col-md-3 col-md-offset-1">
-			<h4>Results</h4>
-			<strong>Games retrieved: </strong><span id="number_games_retrieved">0</span><span
-				id="number_games">/0</span>
-			<strong id="blacklisted_games_span" class="blacklisted" style="display: none;">+<span
-					id="blacklisted_games_retrieved">0</span> BL
-				game(s)</strong><br>
-			<strong>Avg Completion: </strong><span id="average_completion">0</span><span>%</span><br>
-			<strong>Achievements: </strong><span id="achievements_number">0</span><br>
-			<strong>Games completed: </strong><span id="games_completed">0</span>
+			</div>
 		</div>
 	</div>
-	<div class="row">
-		<div id="results" class="hidden">
-			<table id="achievements_table" class="tablesorter" cellspacing="0" width="100%">
-				<thead>
-				<tr>
-					<th>Name</th>
-					<th>APPID</th>
-					<th data-placeholder="Display all games">%</th>
-				</tr>
-				</thead>
-				<tbody id="games_table">
-				</tbody>
-				<tfoot>
-				</tfoot>
-			</table>
-		</div>
-	</div>
-</div>
+</div> <!-- /container -->
 <!-- Modals -->
 <!-- Modal Welcome -->
 <div class="modal fade" id="welcomeModal" tabindex="-1" role="dialog" data-backdrop="static"

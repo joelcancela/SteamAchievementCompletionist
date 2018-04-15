@@ -8,6 +8,11 @@
     color: #fe081e;
 }
 
+body {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
 .devicon-github-plain {
     font-size: 1.5em;
 }
