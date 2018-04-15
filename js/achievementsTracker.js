@@ -31,18 +31,18 @@ var CORS_STEAM_ACHIEVEMENTS_URL = "https://www.joelcancela.fr/services/sac/getSt
  * Retrieves the preferences from the local storage, initializes the events and the table.
  */
 $(document).ready(function () {
-    initializeEvents();
-    welcomeModalDisplay = localStorage.getItem('welcomeModal');
-    if (welcomeModalDisplay == null) {
-        $('#welcomeModal').modal('show');
-    }
-    initializeTable();
-    steamID = localStorage.getItem('steamid');
-    gamesWithAchievementsOwned = localStorage.getItem('games');
-    if (steamID !== null && gamesWithAchievementsOwned !== null) {
-        $("#steamid").val(JSON.parse(steamID));
-        $("#gamesJSON").val(gamesWithAchievementsOwned);
-    }
+	initializeEvents();
+	welcomeModalDisplay = localStorage.getItem('welcomeModal');
+	if (welcomeModalDisplay == null) {
+		$('#welcomeModal').modal('show');
+	}
+	initializeTable();
+	steamID = localStorage.getItem('steamid');
+	gamesWithAchievementsOwned = localStorage.getItem('games');
+	if (steamID !== null && gamesWithAchievementsOwned !== null) {
+		$("#steamid").val(JSON.parse(steamID));
+		$("#gamesJSON").val(gamesWithAchievementsOwned);
+	}
 });
 
 /************************************************** Tablesorter **************************************************/
@@ -51,52 +51,68 @@ $(document).ready(function () {
  * Initializes the tablesorter plugin.
  */
 function initializeTable() {
-    $(function () {
-        $.tablesorter.themes.bootstrap = {
-            table: 'table table-bordered table-striped',
-            caption: 'caption',
-            header: 'bootstrap-header',
-            sortNone: '',
-            sortAsc: '',
-            sortDesc: '',
-            active: '',
-            hover: '',
-            icons: '',
-            iconSortNone: 'bootstrap-icon-unsorted',
-            iconSortAsc: 'glyphicon glyphicon-chevron-up',
-            iconSortDesc: 'glyphicon glyphicon-chevron-down',
-            filterRow: '',
-            footerRow: '',
-            footerCells: '',
-            even: '',
-            odd: ''
-        };
+	$(function () {
+		$.tablesorter.themes.bootstrap = {
+			table: 'table table-bordered table-striped',
+			caption: 'caption',
+			header: 'bootstrap-header',
+			sortNone: '',
+			sortAsc: '',
+			sortDesc: '',
+			active: '',
+			hover: '',
+			icons: '',
+			iconSortNone: 'bootstrap-icon-unsorted',
+			iconSortAsc: 'glyphicon glyphicon-chevron-up',
+			iconSortDesc: 'glyphicon glyphicon-chevron-down',
+			filterRow: '',
+			footerRow: '',
+			footerCells: '',
+			even: '',
+			odd: ''
+		};
 
-        $("#achievements_table").tablesorter({
-            theme: "grey",
-            widthFixed: true,
-            headerTemplate: '{content} {icon}',
-            sortList: [[0, 0]],
-            widgets: ["uitheme", "filter", "columns", "zebra"],
-            widgetOptions: {
-                zebra: ["even", "odd"],
-                columns: ["primary", "secondary", "tertiary"],
-                filter_reset: ".reset",
-                filter_cssFilter: "form-control",
-                filter_functions: {
-                    2: {
-                        /**
-                         * Filter function to hide fully completed games/apps.
-                         * @return {boolean} true if the game is not 100% completed
-                         */
-                        'Hide 100% games': function (e, n) {
-                            return n < 100;
-                        }
-                    }
-                }
-            }
-        })
-    });
+		$("#achievements_table").tablesorter({
+			theme: "grey",
+			widthFixed: true,
+			headerTemplate: '{content} {icon}',
+			sortList: [[0, 0]],
+			textSorter: {
+				0: function (a, b, direction, column, table) {
+					var needle = "the ";
+					var newa = a, newb = b;
+					if (a.lastIndexOf(needle, 0) === 0) {
+						newa = a.substring(4, a.length - 1);
+					}
+					if (b.lastIndexOf(needle, 0) === 0) {
+						newb = b.substring(4, b.length - 1);
+					}
+					if (table.config.sortLocaleCompare) {
+						return newa.localeCompare(newb);
+					}
+					return ((newa < newb) ? -1 : ((newa > newb) ? 1 : 0));
+				}
+			},
+			widgets: ["uitheme", "filter", "columns", "zebra"],
+			widgetOptions: {
+				zebra: ["even", "odd"],
+				columns: ["primary", "secondary", "tertiary"],
+				filter_reset: ".reset",
+				filter_cssFilter: "form-control",
+				filter_functions: {
+					2: {
+						/**
+						 * Filter function to hide fully completed games/apps.
+						 * @return {boolean} true if the game is not 100% completed
+						 */
+						'Hide 100% games': function (e, n) {
+							return n < 100;
+						}
+					}
+				}
+			}
+		})
+	});
 }
 
 /************************************************** Local Storage Manipulation **************************************************/
@@ -107,25 +123,25 @@ function initializeTable() {
  * Saves to the local storage, the Steam64ID and the JSON of owned games when submitting.
  */
 function initializeEvents() {
-    $("#welcomeModalCheckbox").change(function () {
-        if (this.checked) {
-            localStorage.setItem('welcomeModal', "false");
-        } else {
-            localStorage.setItem('welcomeModal', null);
-        }
+	$("#welcomeModalCheckbox").change(function () {
+		if (this.checked) {
+			localStorage.setItem('welcomeModal', "false");
+		} else {
+			localStorage.setItem('welcomeModal', null);
+		}
 
-    });
-    $('#userInfo').on('submit', function (e) {
-        e.preventDefault();
-        steamID = $('#steamid').val();
-        gamesWithAchievementsOwned = JSON.parse($('#gamesJSON').val());
-        $('#number_games').html("/" + gamesWithAchievementsOwned.length);
-        localStorage.setItem('steamid', JSON.stringify(steamID));
-        localStorage.setItem('games', JSON.stringify(gamesWithAchievementsOwned));
-        retrieveAchievementsInfo(gamesWithAchievementsOwned);
-        retrieveBlacklistedGamesAchievements();
-        return false;
-    });
+	});
+	$('#userInfo').on('submit', function (e) {
+		e.preventDefault();
+		steamID = $('#steamid').val();
+		gamesWithAchievementsOwned = JSON.parse($('#gamesJSON').val());
+		$('#number_games').html("/" + gamesWithAchievementsOwned.length);
+		localStorage.setItem('steamid', JSON.stringify(steamID));
+		localStorage.setItem('games', JSON.stringify(gamesWithAchievementsOwned));
+		retrieveAchievementsInfo(gamesWithAchievementsOwned);
+		retrieveBlacklistedGamesAchievements();
+		return false;
+	});
 }
 
 /************************************************** Steam API Calls  **************************************************/
@@ -136,22 +152,22 @@ function initializeEvents() {
  * @param isBlacklisted boolean that indicates if the game or app is blacklisted (not shown on Steam showcases stats)
  */
 function getGameAchievements(appid, isBlacklisted) {
-    $.getJSON(URLAchievementsBuilder(appid, apiKey, steamID), function (data) {
-        appendGameToTable(data, appid, isBlacklisted);
-    }).fail(function (request, error) {
-        console.log(" Can't do because: " + error);
-    });
+	$.getJSON(URLAchievementsBuilder(appid, apiKey, steamID), function (data) {
+		appendGameToTable(data, appid, isBlacklisted);
+	}).fail(function (request, error) {
+		console.log(" Can't do because: " + error);
+	});
 }
 
 /**
  * Retrieves the achievements for the blacklisted games
  */
 function retrieveBlacklistedGamesAchievements() {
-    var appid;
-    for (var index in blacklisted_games) {
-        appid = blacklisted_games[index];
-        getGameAchievements(appid, true);
-    }
+	var appid;
+	for (var index in blacklisted_games) {
+		appid = blacklisted_games[index];
+		getGameAchievements(appid, true);
+	}
 }
 
 /**
@@ -159,12 +175,12 @@ function retrieveBlacklistedGamesAchievements() {
  * @param games the array of the games
  */
 function retrieveAchievementsInfo(games) {
-    $('#results').removeClass("hidden");
-    for (var i in games) {
-        if (games.hasOwnProperty(i) && games[i].hasOwnProperty('appid')) {
-            getGameAchievements(games[i]['appid'], false);
-        }
-    }
+	$('#results').removeClass("hidden");
+	for (var i in games) {
+		if (games.hasOwnProperty(i) && games[i].hasOwnProperty('appid')) {
+			getGameAchievements(games[i]['appid'], false);
+		}
+	}
 }
 
 /**
@@ -175,7 +191,7 @@ function retrieveAchievementsInfo(games) {
  * @return {string} the URL for the game or app asked
  */
 function URLAchievementsBuilder(appid, key, steamID) {
-    return CORS_STEAM_ACHIEVEMENTS_URL + "?appid=" + appid + "&steam_key_api=" + key + "&steamid=" + steamID;
+	return CORS_STEAM_ACHIEVEMENTS_URL + "?appid=" + appid + "&steam_key_api=" + key + "&steamid=" + steamID;
 }
 
 /************************************************** DOM Manipulation  **************************************************/
@@ -187,20 +203,20 @@ function URLAchievementsBuilder(appid, key, steamID) {
  * @param isBlacklisted boolean that indicates if the game or app is blacklisted (not shown on Steam showcases stats)
  */
 function appendGameToTable(json, appid, isBlacklisted) {
-    var game_name = json['playerstats']['gameName'];
-    var number_of_achievements = json['playerstats']['achievements'].length;
-    var number_of_achievements_achieved = 0;
-    for (var i in json['playerstats']['achievements']) {
-        if (json['playerstats']['achievements'].hasOwnProperty(i) && json['playerstats']['achievements'][i]['achieved'] === 1)
-            number_of_achievements_achieved++;
-    }
-    var game_completion = Math.floor(((number_of_achievements_achieved / number_of_achievements) * 100));
-    if (game_completion === 100) games_completed++;
-    achievements_sum += number_of_achievements_achieved;
-    completion_sum += (number_of_achievements_achieved / number_of_achievements) * 100;
-    $('#games_table').append(row_builder(game_name, appid, game_completion, isBlacklisted));
-    var resort = true;
-    $("table").trigger("update", [resort, updateStats(isBlacklisted)]);
+	var game_name = json['playerstats']['gameName'];
+	var number_of_achievements = json['playerstats']['achievements'].length;
+	var number_of_achievements_achieved = 0;
+	for (var i in json['playerstats']['achievements']) {
+		if (json['playerstats']['achievements'].hasOwnProperty(i) && json['playerstats']['achievements'][i]['achieved'] === 1)
+			number_of_achievements_achieved++;
+	}
+	var game_completion = Math.floor(((number_of_achievements_achieved / number_of_achievements) * 100));
+	if (game_completion === 100) games_completed++;
+	achievements_sum += number_of_achievements_achieved;
+	completion_sum += (number_of_achievements_achieved / number_of_achievements) * 100;
+	$('#games_table').append(row_builder(game_name, appid, game_completion, isBlacklisted));
+	var resort = true;
+	$("table").trigger("update", [resort, updateStats(isBlacklisted)]);
 }
 
 /**
@@ -212,14 +228,14 @@ function appendGameToTable(json, appid, isBlacklisted) {
  * @returns {string} the DOM string to append to the table
  */
 function row_builder(game_name, appid, game_completion, isBlacklisted) {
-    var dom;
-    if (isBlacklisted) {
-        dom = "<tr><td><span class='blacklisted'>" + game_name + "</span></td><td>" + appid + "</td>";
-    } else {
-        dom = "<tr><td>" + game_name + "</td><td>" + appid + "</td>";
-    }
-    dom += "<td class='gradient_" + Math.floor(game_completion / 2) + " '>" + game_completion + "</td></tr>";
-    return dom;
+	var dom;
+	if (isBlacklisted) {
+		dom = "<tr><td><span class='blacklisted'>" + game_name + "</span></td><td>" + appid + "</td>";
+	} else {
+		dom = "<tr><td>" + game_name + "</td><td>" + appid + "</td>";
+	}
+	dom += "<td class='gradient_" + Math.floor(game_completion / 2) + " '>" + game_completion + "</td></tr>";
+	return dom;
 }
 
 /**
@@ -227,21 +243,21 @@ function row_builder(game_name, appid, game_completion, isBlacklisted) {
  * @param isBlacklisted boolean that indicates if the game or app is blacklisted (not shown on Steam showcases stats)
  */
 var updateStats = function (isBlacklisted) {
-    var blacklistedGamesSpan = $('#blacklisted_games_span');
-    var blacklistedGamesRetrieved = $('#blacklisted_games_retrieved');
-    var gamesRetrieved = $('#number_games_retrieved');
-    if (isBlacklisted) {
-        blacklistedGamesSpan.show();
-        var numberOfBlacklistedGamesRetrieved = parseInt(blacklistedGamesRetrieved.text()) + 1;
-        blacklistedGamesRetrieved.html(numberOfBlacklistedGamesRetrieved);
-    } else {
-        var numberOfGamesRetrieved = parseInt(gamesRetrieved.text()) + 1;
-        gamesRetrieved.html(numberOfGamesRetrieved);
-    }
-    var average_completion = $('#average_completion');
-    average_completion.html(Math.floor(completion_sum / (parseInt(gamesRetrieved.text()) + parseInt(blacklistedGamesRetrieved.text()))));
-    var achievements_nb = $('#achievements_number');
-    achievements_nb.html(achievements_sum);
-    var games_completed_nb = $('#games_completed');
-    games_completed_nb.html(games_completed);
+	var blacklistedGamesSpan = $('#blacklisted_games_span');
+	var blacklistedGamesRetrieved = $('#blacklisted_games_retrieved');
+	var gamesRetrieved = $('#number_games_retrieved');
+	if (isBlacklisted) {
+		blacklistedGamesSpan.show();
+		var numberOfBlacklistedGamesRetrieved = parseInt(blacklistedGamesRetrieved.text()) + 1;
+		blacklistedGamesRetrieved.html(numberOfBlacklistedGamesRetrieved);
+	} else {
+		var numberOfGamesRetrieved = parseInt(gamesRetrieved.text()) + 1;
+		gamesRetrieved.html(numberOfGamesRetrieved);
+	}
+	var average_completion = $('#average_completion');
+	average_completion.html(Math.floor(completion_sum / (parseInt(gamesRetrieved.text()) + parseInt(blacklistedGamesRetrieved.text()))));
+	var achievements_nb = $('#achievements_number');
+	achievements_nb.html(achievements_sum);
+	var games_completed_nb = $('#games_completed');
+	games_completed_nb.html(games_completed);
 };

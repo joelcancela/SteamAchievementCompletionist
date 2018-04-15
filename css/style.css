@@ -4,14 +4,17 @@
  *  https://github.com/joelcancela/SteamAchievementCompletionist
  */
 
-.tablesorter-grey tbody > tr.even.hover > td,
-.tablesorter-grey tbody > tr.even:hover + tr.tablesorter-childRow + tr.tablesorter-childRow > td,
-.tablesorter-grey tbody > tr.even:hover + tr.tablesorter-childRow > td,
-.tablesorter-grey tbody > tr.even:hover > td,
-.tablesorter-grey tbody > tr.hover > td,
-.tablesorter-grey tbody > tr:hover + tr.tablesorter-childRow + tr.tablesorter-childRow > td,
-.tablesorter-grey tbody > tr:hover + tr.tablesorter-childRow > td, .tablesorter-grey tbody > tr:hover > td {
-    background-color: #134b78 !important;
+.blacklisted {
+    color: #fe081e;
+}
+
+.devicon-github-plain {
+    font-size: 1.5em;
+}
+
+.github, .github:hover, .github:focus {
+    color: #000;
+    text-decoration: none;
 }
 
 .gradient_0 {
@@ -218,10 +221,16 @@
     background-color: #3E8F3E !important;
 }
 
-.blacklisted {
-    color: #fe081e;
-}
-
 .level {
     max-width: 35px;
+}
+
+.tablesorter-grey tbody > tr.even.hover > td,
+.tablesorter-grey tbody > tr.even:hover + tr.tablesorter-childRow + tr.tablesorter-childRow > td,
+.tablesorter-grey tbody > tr.even:hover + tr.tablesorter-childRow > td,
+.tablesorter-grey tbody > tr.even:hover > td,
+.tablesorter-grey tbody > tr.hover > td,
+.tablesorter-grey tbody > tr:hover + tr.tablesorter-childRow + tr.tablesorter-childRow > td,
+.tablesorter-grey tbody > tr:hover + tr.tablesorter-childRow > td, .tablesorter-grey tbody > tr:hover > td {
+    background-color: #134b78 !important;
 }
