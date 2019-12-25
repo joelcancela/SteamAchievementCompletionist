@@ -216,6 +216,10 @@ function URLAchievementsBuilder(appid, key, steamID) {
  */
 function appendGameToTable(json, appid, isBlacklisted) {
 	var game_name = json['playerstats']['gameName'];
+	if(!json['playerstats']['achievements']){
+		$("table").trigger("update", [true, updateStats(isBlacklisted)]);
+		return;
+	}
 	var number_of_achievements = json['playerstats']['achievements'].length;
 	var number_of_achievements_achieved = 0;
 	for (var i in json['playerstats']['achievements']) {
