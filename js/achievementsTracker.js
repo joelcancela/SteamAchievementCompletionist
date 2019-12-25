@@ -137,6 +137,8 @@ function initializeEvents() {
 	});
 	$('#userInfo').on('submit', function (e) {
 		e.preventDefault();
+		$.tablesorter.clearTableBody($("#achievements_table"));
+		clearStats();
 		steamID = $('#steamid').val();
 		gamesWithAchievementsOwned = JSON.parse($('#gamesJSON').val());
 		apiKey = $('#apiKey').val();
@@ -271,3 +273,11 @@ var updateStats = function (isBlacklisted) {
 	var games_completed_nb = $('#games_completed');
 	games_completed_nb.html(games_completed);
 };
+
+function clearStats() {
+	$('#blacklisted_games_span').hide();
+	$('#number_games_retrieved').html(0);
+	$('#average_completion').html(0);
+	$('#achievements_number').html(0);
+	$('#games_completed').html(0);
+}
