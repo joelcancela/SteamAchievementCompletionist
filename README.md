@@ -45,7 +45,7 @@ this command will copy to the Clipboard the games you have at least one achievem
 ## Built With
 
 * [Bootstrap v3.3.7](https://getbootstrap.com/docs/3.3/) - The web framework used
-* [tablesorter (fork by Rob Garrison)](https://mottie.github.io/tablesorter/docs/) - Dependency Management
+* [tablesorter (fork by Rob Garrison)](https://mottie.github.io/tablesorter/docs/) - Jquery script to make tables sortable
 
 ## Uses
 
