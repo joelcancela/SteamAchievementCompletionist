@@ -8,8 +8,6 @@ This project provides a simple view of the achievement completion for every game
 
 ![Preview](img/preview.png)
 
-You can try it [here.](http://sac.joelcancela.fr/)
-
 ## Requirements
 
 * You need to have a Steam account.
